@@ -1,16 +1,16 @@
-define(['jquery',  "fx-rp-config"], function ($,  PluginCOFIG) {
+define(['jquery', "fx-rp-config", 'amplify'], function ($, PluginCOFIG) {
 
     'use strict';
 
 
-    var  pluginChosen;
+    var pluginChosen;
 
 
     var EXPORT_ACCESS_POINT = '/fenix/export';
 
 
     var o = {
-        "success":""
+        "success": ""
     };
 
 
@@ -18,29 +18,29 @@ define(['jquery',  "fx-rp-config"], function ($,  PluginCOFIG) {
 
         this.o = o;
 
-        this.o.success = function(Plugin) {
+        this.o.success = function (Plugin) {
             pluginChosen = new Plugin;
         };
 
-        this.o.error = function() {
+        this.o.error = function () {
             console.error("Something went wrong on plugin creation");
         };
     };
 
 
-    FenixReports.prototype.init = function(plugin) {
+    FenixReports.prototype.init = function (plugin) {
 
-        if(typeof plugin!== 'undefined' && plugin!== null && plugin !== '' &&
-            typeof  PluginCOFIG[plugin] !== 'undefined' && PluginCOFIG[plugin]){
-            require([''+PluginCOFIG[plugin]], o.success, o.error);
+        if (typeof plugin !== 'undefined' && plugin !== null && plugin !== '' &&
+            typeof  PluginCOFIG[plugin] !== 'undefined' && PluginCOFIG[plugin]) {
+            require(['' + PluginCOFIG[plugin]], o.success, o.error);
         }
-        else  {
+        else {
             throw new Error('please define a valid plugin name');
         }
     };
 
 
-    FenixReports.prototype.exportData = function (config, url,successCallBack, errorCallback) {
+    FenixReports.prototype.exportData = function (config, url, successCallBack, errorCallback) {
 
         var payload = pluginChosen.process(config);
 
@@ -58,6 +58,12 @@ define(['jquery',  "fx-rp-config"], function ($,  PluginCOFIG) {
                 self.onSuccess(successCallBack);
 
             },
+            beforeSend: function () {
+               amplify.publish('fx.reports.hasSent');
+            },
+            complete : function() {
+                amplify.publish('fx.reports.hasCompleted');
+            },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert("error occurred");
                 var errors = {
@@ -71,17 +77,17 @@ define(['jquery',  "fx-rp-config"], function ($,  PluginCOFIG) {
     };
 
 
-    FenixReports.prototype.onSuccess = function(callback) {
+    FenixReports.prototype.onSuccess = function (callback) {
         console.log('onSuccess');
-        if(callback && callback!== null) {
+        if (callback && callback !== null) {
             callback();
         }
     };
 
 
-    FenixReports.prototype.onError = function(callback, errors) {
+    FenixReports.prototype.onError = function (callback, errors) {
         console.log('onSuccess');
-        if(callback && callback!== null) {
+        if (callback && callback !== null) {
             callback(errors);
         }
     };
