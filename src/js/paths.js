@@ -7,7 +7,8 @@ define(function () {
             "fx-rp-config"      :  "./registry/PluginsRegistry",
             "fx-rp-metadata"    : "./plugins/metadata/MetadataValidator",
             "fx-rp-table"       : "./plugins/table/TableValidator",
-            "fx-report"       :  "./start"
+            "fx-rp-surveyFMD"   : "./plugins/fmd/FMDValidator",
+            "fx-report"         :  "./start"
         },
         shim: {
             'amplify' : {
