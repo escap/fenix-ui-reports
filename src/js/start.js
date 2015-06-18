@@ -78,7 +78,6 @@ define(['jquery', "fx-rp-config", 'amplify'], function ($, PluginCOFIG) {
 
 
     FenixReports.prototype.onSuccess = function (callback) {
-        console.log('onSuccess');
         if (callback && callback !== null) {
             callback();
         }
@@ -86,7 +85,6 @@ define(['jquery', "fx-rp-config", 'amplify'], function ($, PluginCOFIG) {
 
 
     FenixReports.prototype.onError = function (callback, errors) {
-        console.log('onSuccess');
         if (callback && callback !== null) {
             callback(errors);
         }
