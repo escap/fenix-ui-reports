@@ -56,10 +56,13 @@ define(['jquery', "fx-rp-config", 'amplify'], function ($, PluginCOFIG) {
             data: JSON.stringify(payload),
             contentType: 'application/json',
             success: function (data) {
-                window.location = url +'?'+ data.substr(data.indexOf('id'));
 
-                self.onSuccess(successCallBack);
+                var locUrl = url +'?'+ data.substr(data.indexOf('id'));
+                
+                if($.isFunction(successCallBack))
+                    successCallBack(locUrl);
 
+                window.location = locUrl;
             },
             beforeSend: function () {
                amplify.publish('fx.reports.hasSent');
@@ -68,31 +71,18 @@ define(['jquery', "fx-rp-config", 'amplify'], function ($, PluginCOFIG) {
                 amplify.publish('fx.reports.hasCompleted');
             },
             error: function (jqXHR, textStatus, errorThrown) {
+                
                 alert("error occurred");
-                var errors = {
-                    'jqXHR': jqXHR,
-                    'textStatus': textStatus,
-                    'errorThrown': errorThrown
-                };
-                self.onError(errorCallback, errors);
+
+                if($.isFunction(errorCallback))
+                    errorCallback({
+                        'jqXHR': jqXHR,
+                        'textStatus': textStatus,
+                        'errorThrown': errorThrown
+                    });
             }
         });
     };
-
-
-    FenixReports.prototype.onSuccess = function (callback) {
-        if (callback && callback !== null) {
-            callback();
-        }
-    };
-
-
-    FenixReports.prototype.onError = function (callback, errors) {
-        if (callback && callback !== null) {
-            callback(errors);
-        }
-    };
-
 
     return FenixReports;
 })
