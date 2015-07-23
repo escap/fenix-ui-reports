@@ -44,9 +44,11 @@ define(['jquery', "fx-rp-config", 'amplify'], function ($, PluginCOFIG) {
 
         var payload = pluginChosen.process(config);
 
-        url += EXPORT_ACCESS_POINT;
 
         var self = this;
+
+        url += EXPORT_ACCESS_POINT;
+
         $.ajax({
             url: url,
             crossDomain: true,
@@ -54,7 +56,8 @@ define(['jquery', "fx-rp-config", 'amplify'], function ($, PluginCOFIG) {
             data: JSON.stringify(payload),
             contentType: 'application/json',
             success: function (data) {
-                window.location = data;
+                window.location = url +'?'+ data.substr(data.indexOf('id'));
+
                 self.onSuccess(successCallBack);
 
             },
