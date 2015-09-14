@@ -1,4 +1,7 @@
-define(['jquery'], function ($) {
+define(['jquery',
+    'fx-report/config/md-export/config',
+    'fx-report/config/md-export/config-default'
+], function ($, C, DC) {
 
     'use strict';
 
@@ -28,7 +31,8 @@ define(['jquery'], function ($) {
             "input": {
                 "plugin": "inputMD",
                 "config": {
-                    "uid": ""
+                    "uid": "",
+                    "metadata_url": (C.SERVICE_BASE_ADDRESS || DC.SERVICE_BASE_ADDRESS)
                 }
             },
             "output": {
@@ -39,6 +43,7 @@ define(['jquery'], function ($) {
                 }
             }
         };
+        debugger;
 
     }
 

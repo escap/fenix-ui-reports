@@ -8,7 +8,8 @@ define(function () {
             "fx-rp-metadata"    : "./plugins/metadata/MetadataValidator",
             "fx-rp-table"       : "./plugins/table/TableValidator",
             "fx-rp-surveyFMD"   : "./plugins/fmd/FMDValidator",
-            "fx-report"         :  "./start"
+            "fx-report"         :  "./start",
+            "fx-report/config"            : "../../config"
         },
         shim: {
             'amplify' : {
