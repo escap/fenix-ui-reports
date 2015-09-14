@@ -43,8 +43,6 @@ define(['jquery',
                 }
             }
         };
-        debugger;
-
     }
 
 
