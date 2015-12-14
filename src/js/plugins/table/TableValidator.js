@@ -1,16 +1,13 @@
-define(['jquery',
-    'fx-report/config/md-export/config',
-    'fx-report/config/md-export/config-default'
-], function ($, C, DC) {
+define(['jquery'], function ($) {
 
-    'use strict';
+    'use strict'
 
 
-    function MetadataValidator() {
+    function TableValidator() {
 
         this.errors = {
-            id_not_specified: "please put an id into resource.metadata.uid",
             plugin_not_exists: "the output plugin does not exists",
+            data_or_md_not_exists:"please set metadata and data into configuration specified",
             language_not_exists: "language in the config does not exists",
             configuration_wrong:"please check the configuration"
         };
@@ -20,67 +17,56 @@ define(['jquery',
             FR: true,
             ES: true
         };
-
         this.CONFIG = {
+
             "resource": {
                 "metadata": {
                 },
                 "data": []
             },
             "input": {
-                "plugin": "inputMD",
+                "plugin": "inputTable",
                 "config": {
                 }
             },
             "output": {
-                "plugin": "outputMD",
+                "plugin": "outputTable",
                 "config": {
-                    "full": false,
                     "lang": "EN"
                 }
             }
         };
+
     }
 
 
-    MetadataValidator.prototype.process = function (config) {
+    TableValidator.prototype.process = function (config) {
 
         /* Extend default configuration. */
         if(this.validateConfig(config)) {
             this.CONFIG = $.extend(true, {}, this.CONFIG, config);
         }
         return this.CONFIG;
-    };
+    }
 
 
-    MetadataValidator.prototype.validateConfig = function (config) {
+    TableValidator.prototype.validateConfig = function (config) {
 
         var result = false;
-        // check id of che metadata
-        if (typeof config.input !== 'undefined' && config.input !== null
+        // check data and metadata
+        if (typeof config.input !== 'undefined' && config.input != null
             && config.resource && config.resource.metadata && config.resource.metadata.uid
-            && config.resource.metadata.uid !== null  && config.resource.metadata.uid !== '' ) {
+            && config.resource.metadata.uid !== null  && config.resource.metadata.uid !== '' ){
             result = true;
-            // output configuration
-            if (config.hasOwnProperty("output")) {
-                // check the lang
-                if (!config.output.hasOwnProperty("plugin") &&
-                    config.output.hasOwnProperty("config") && config.output.config.hasOwnProperty("lang") &&
-                    config.output.config.lang !== null && this.languagesAdmitted[config.output.config.lang]){
-                    result = true;
-                }
 
-                else {
-                    throw this.errors.configuration_wrong;
-                }
-            }
+
         } else {
-            throw this.errors.id_not_specified;
+            throw this.errors.data_or_md_not_exists;
         }
 
         return result;
-    };
+    }
 
 
-    return MetadataValidator;
+    return TableValidator;
 })
