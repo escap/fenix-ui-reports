@@ -18,11 +18,15 @@ define(['jquery'], function ($) {
             ES: true
         };
         this.CONFIG = {
+
+            "resource": {
+                "metadata": {
+                },
+                "data": []
+            },
             "input": {
                 "plugin": "inputTable",
                 "config": {
-                    "uid": "",
-                    "environment_url" : "http://fenixservices.fao.org"
                 }
             },
             "output": {
@@ -50,10 +54,9 @@ define(['jquery'], function ($) {
 
         var result = false;
         // check data and metadata
-        if (typeof config.input !== 'undefined' && config.input != null &&
-            typeof config.input.config !== 'undefined' && config.input.config != null &&
-            typeof config.input.config.uid !== 'undefined' && config.input.config.uid !== null &&
-            typeof config.input.config.environment_url !== 'undefined' && config.input.config.environment_url !== null ){
+        if (typeof config.input !== 'undefined' && config.input != null
+            && config.resource && config.resource.metadata && config.resource.metadata.uid
+            && config.resource.metadata.uid !== null  && config.resource.metadata.uid !== '' ){
             result = true;
 
 

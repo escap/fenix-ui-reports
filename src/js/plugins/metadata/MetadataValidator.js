@@ -9,7 +9,7 @@ define(['jquery',
     function MetadataValidator() {
 
         this.errors = {
-            id_not_specified: "please put an id into config.input",
+            id_not_specified: "please put an id into resource.metadata.uid",
             plugin_not_exists: "the output plugin does not exists",
             language_not_exists: "language in the config does not exists",
             configuration_wrong:"please check the configuration"
@@ -24,15 +24,12 @@ define(['jquery',
         this.CONFIG = {
             "resource": {
                 "metadata": {
-                    "dsd": {}
                 },
                 "data": []
             },
             "input": {
                 "plugin": "inputMD",
                 "config": {
-                    "uid": "",
-                    "metadata_url": (C.SERVICE_BASE_ADDRESS || DC.SERVICE_BASE_ADDRESS)
                 }
             },
             "output": {
@@ -60,10 +57,9 @@ define(['jquery',
 
         var result = false;
         // check id of che metadata
-        if (typeof config.input !== 'undefined' && config.input !== null &&
-            typeof config.input.config !== 'undefined' && config.input.config !== null &&
-            typeof config.input.config.uid !== 'undefined' && config.input.config.uid !== null &&
-            config.input.uid !== '' ) {
+        if (typeof config.input !== 'undefined' && config.input !== null
+            && config.resource && config.resource.metadata && config.resource.metadata.uid
+            && config.resource.metadata.uid !== null  && config.resource.metadata.uid !== '' ) {
             result = true;
             // output configuration
             if (config.hasOwnProperty("output")) {
