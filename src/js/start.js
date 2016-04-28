@@ -1,4 +1,10 @@
-define(['jquery', "fx-rp-plugins-factory", 'amplify'], function ($, PluginFactory) {
+define([
+    'jquery', 
+    "fx-rp-plugins-factory", 
+    "fx-reports/config/config",
+    "fx-reports/config/config-default",
+    "q",
+    'amplify'], function ($, PluginFactory, C, DC, Q) {
 
     'use strict';
 
@@ -21,11 +27,17 @@ define(['jquery', "fx-rp-plugins-factory", 'amplify'], function ($, PluginFactor
     };
 
 
-    FenixReports.prototype.exportData = function (config, url, successCallBack, errorCallback) {
+    FenixReports.prototype.exportData = function ( obj ) {
 
-        url += EXPORT_ACCESS_POINT;
+        var url = '';
 
-        var payload = this._$pluginChosen.process(config);
+        if (obj.url) {
+            url += EXPORT_ACCESS_POINT;
+        } else {
+            url = (C.EXPORT_URL || DC.EXPORT_URL) + EXPORT_ACCESS_POINT
+        }
+
+        var payload = this._$pluginChosen.process(obj.config);
 
         $.ajax({
             url: url,
@@ -37,8 +49,8 @@ define(['jquery', "fx-rp-plugins-factory", 'amplify'], function ($, PluginFactor
 
                 var locUrl = url + '?' + data.substr(data.indexOf('id'));
 
-                if ($.isFunction(successCallBack))
-                    successCallBack(locUrl);
+                if ($.isFunction(obj.success))
+                    obj.success(locUrl);
 
                 window.location = locUrl;
             },
@@ -52,8 +64,8 @@ define(['jquery', "fx-rp-plugins-factory", 'amplify'], function ($, PluginFactor
 
                 alert("error occurred");
 
-                if ($.isFunction(errorCallback))
-                    errorCallback({
+                if ($.isFunction(obj.error))
+                    obj.error({
                         'jqXHR': jqXHR,
                         'textStatus': textStatus,
                         'errorThrown': errorThrown

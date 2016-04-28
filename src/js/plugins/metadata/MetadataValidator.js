@@ -1,6 +1,6 @@
 define(['jquery',
-    'fx-report/config/md-export/config',
-    'fx-report/config/md-export/config-default'
+    'fx-reports/config/md-export/config',
+    'fx-reports/config/md-export/config-default'
 ], function ($, C, DC) {
 
     'use strict';

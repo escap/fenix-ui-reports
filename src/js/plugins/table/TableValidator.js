@@ -42,6 +42,8 @@ define(['jquery'], function ($) {
 
     TableValidator.prototype.process = function (config) {
 
+        console.log(config)
+
         /* Extend default configuration. */
         if(this.validateConfig(config)) {
             this.CONFIG = $.extend(true, {}, this.CONFIG, config);

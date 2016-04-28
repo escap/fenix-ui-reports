@@ -3,20 +3,23 @@ define(function () {
     var config = {
         paths: {
             'jquery': '{FENIX_CDN}/js/jquery/2.1.1/jquery.min',
-            'amplify' : '{FENIX_CDN}/js/amplify/1.1.2/amplify.min',
-            "fx-rp-plugins-factory"      :  "./factory/PluginsFactory",
-            "fx-rp-metadata"    : "./plugins/metadata/MetadataValidator",
-            "fx-rp-table"       : "./plugins/table/TableValidator",
-            "fx-rp-surveyFMD"   : "./plugins/fmd/FMDValidator",
-            "fx-report"         :  "./start",
-            "fx-report/config"            : "../../config"
+            'amplify': '{FENIX_CDN}/js/amplify/1.1.2/amplify.min',
+            "fx-rp-plugins-factory": "./factory/PluginsFactory",
+            "fx-rp-metadata": "./plugins/metadata/MetadataValidator",
+            "fx-rp-table": "./plugins/table/TableValidator",
+            "fx-rp-surveyFMD": "./plugins/fmd/FMDValidator",
+            "fx-reports/start": "./start",
+            "fx-reports/config": "../../config",
+
+            'q': '{FENIX_CDN}/js/q/1.1.2/q'
+
         },
         shim: {
-            'amplify' : {
-                deps : ['jquery']
+            'amplify': {
+                deps: ['jquery']
             },
-            'fx-rp-plugins-factory':{
-                deps : ['fx-rp-metadata','fx-rp-table','fx-rp-surveyFMD']
+            'fx-rp-plugins-factory': {
+                deps: ['fx-rp-metadata', 'fx-rp-table', 'fx-rp-surveyFMD']
             }
         }
     };
