@@ -8,7 +8,7 @@ define(function () {
             "fx-rp-metadata": "./plugins/metadata/MetadataValidator",
             "fx-rp-table": "./plugins/table/TableValidator",
             "fx-rp-surveyFMD": "./plugins/fmd/FMDValidator",
-            "fx-reports/start": "./start",
+            "fx-reports/start": "./reports",
             "fx-reports/config": "../../config",
 
             'q': '{FENIX_CDN}/js/q/1.1.2/q'
