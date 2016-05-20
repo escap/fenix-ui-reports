@@ -1,21 +1,17 @@
 define([
-    'jquery', 
-    "fx-rp-plugins-factory", 
+    'jquery',
+    "fx-rp-plugins-factory",
     "fx-reports/config/config",
     "fx-reports/config/config-default",
+    "fx-common/bridge",
     "q",
-    'amplify'], function ($, PluginFactory, C, DC, Q) {
+    'amplify'], function ($, PluginFactory, C, DC, Bridge, Q) {
 
     'use strict';
-
-
-    var EXPORT_ACCESS_POINT = '/fenix/export';
-
 
     function FenixReports() {
         this._$pluginChosen = null;
     };
-
 
     FenixReports.prototype.init = function (plugin) {
         if (typeof plugin !== 'undefined' && plugin !== null && plugin !== '') {
@@ -27,51 +23,30 @@ define([
     };
 
 
-    FenixReports.prototype.exportData = function ( obj ) {
+    FenixReports.prototype.exportData = function (obj) {
 
-        var url = '';
+        var self = this;
+        amplify.publish('fx.reports.hasSent');
+        var payload = this._$pluginChosen.process(obj.config)
 
-        if (obj.url) {
-            url += EXPORT_ACCESS_POINT;
-        } else {
-            url = (C.EXPORT_URL || DC.EXPORT_URL) + EXPORT_ACCESS_POINT
-        }
+        Bridge.exportResource(payload).then(
+            self._fullfillRequest,
+            self._rejectResponse);
+    };
 
-        var payload = this._$pluginChosen.process(obj.config);
 
-        $.ajax({
-            url: url,
-            crossDomain: true,
-            type: 'POST',
-            data: JSON.stringify(payload),
-            contentType: 'application/json',
-            success: function (data) {
+    FenixReports.prototype._rejectResponse = function (value) {
+        amplify.publish('fx.reports.hasError');
+        alert("error occurred");
+    };
 
-                var locUrl = url + '?' + data.substr(data.indexOf('id'));
+    FenixReports.prototype._fullfillRequest = function (value) {
 
-                if ($.isFunction(obj.success))
-                    obj.success(locUrl);
+        amplify.publish('fx.reports.hasCompleted');
 
-                window.location = locUrl;
-            },
-            beforeSend: function () {
-                amplify.publish('fx.reports.hasSent');
-            },
-            complete: function () {
-                amplify.publish('fx.reports.hasCompleted');
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
+        var locUrl = value.url + '?' + value.data.substr(value.data.indexOf('id'));
 
-                alert("error occurred");
-
-                if ($.isFunction(obj.error))
-                    obj.error({
-                        'jqXHR': jqXHR,
-                        'textStatus': textStatus,
-                        'errorThrown': errorThrown
-                    });
-                }
-        });
+        window.location = locUrl;
     };
 
     return FenixReports;
