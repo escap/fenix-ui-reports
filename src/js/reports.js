@@ -82,11 +82,9 @@ define([
 
         var locUrl = value.url + '?' + value.data.substr(value.data.indexOf('id'));
 
-        console.log(locUrl);
-        
         window.location = locUrl;
 
     };
 
     return FenixReports;
-})
+});
