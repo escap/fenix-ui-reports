@@ -1,16 +1,46 @@
 define([
     'jquery',
+    "underscore",
     "fx-rp-plugins-factory",
     "fx-reports/config/config",
     "fx-reports/config/config-default",
     "fx-common/bridge",
-    "q",
-    'amplify'], function ($, PluginFactory, C, DC, Bridge, Q) {
+    'amplify'], function ($, _, PluginFactory, C, DC, Bridge) {
 
     'use strict';
 
-    function FenixReports() {
+    function FenixReports(o) {
+        var opts = o || {};
         this._$pluginChosen = null;
+        this.channels = {};
+        this.environment = opts.environment;
+        this.bridge = new Bridge({
+            environment : this.environment
+        })
+    }
+
+    /**
+     * pub/sub
+     * @return {Object} filter instance
+     */
+    FenixReports.prototype.on = function (channel, fn) {
+        if (!this.channels[channel]) {
+            this.channels[channel] = [];
+        }
+        this.channels[channel].push({context: this, callback: fn});
+        return this;
+    };
+
+    FenixReports.prototype._trigger = function (channel) {
+        if (!this.channels[channel]) {
+            return false;
+        }
+        var args = Array.prototype.slice.call(arguments, 1);
+        for (var i = 0, l = this.channels[channel].length; i < l; i++) {
+            var subscription = this.channels[channel][i];
+            subscription.callback.apply(subscription.context, args);
+        }
+        return this;
     };
 
     FenixReports.prototype.init = function (plugin) {
@@ -25,28 +55,37 @@ define([
 
     FenixReports.prototype.exportData = function (obj) {
 
-        var self = this;
         amplify.publish('fx.reports.hasSent');
-        var payload = this._$pluginChosen.process(obj.config)
 
-        Bridge.exportResource(payload).then(
-            self._fullfillRequest,
-            self._rejectResponse);
+        var payload = this._$pluginChosen.process(obj.config);
+
+        this.bridge.exportResource(payload).then(
+            _.bind(this._fulfillRequest, this),
+                _.bind(this._rejectResponse, this));
     };
 
 
     FenixReports.prototype._rejectResponse = function (value) {
         amplify.publish('fx.reports.hasError');
-        alert("error occurred");
+
+        this._trigger("error");
+
+        alert("Error occurred during download resource");
+
     };
 
-    FenixReports.prototype._fullfillRequest = function (value) {
+    FenixReports.prototype._fulfillRequest = function (value) {
 
         amplify.publish('fx.reports.hasCompleted');
 
+        this._trigger("complete");
+
         var locUrl = value.url + '?' + value.data.substr(value.data.indexOf('id'));
 
+        console.log(locUrl);
+        
         window.location = locUrl;
+
     };
 
     return FenixReports;
