@@ -15,7 +15,7 @@ define([
         this.channels = {};
         this.environment = opts.environment;
         this.bridge = new Bridge({
-            environment : this.environment
+            environment : 'develop', //this.environment
         })
     }
 
