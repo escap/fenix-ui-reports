@@ -52,13 +52,13 @@ define(['jquery'], function ($) {
     TableValidator.prototype._selectKindOfExport = function(config) {
 
         if(config.resource.data && Array.isArray(config.resource.data) &&
+            config.resource.metadata.dsd &&
             config.resource.metadata.dsd.contextSystem &&
             config.resource.metadata.dsd.contextSystem !="D3P"){
             var uid = config.resource.metadata.uid;
             config.resource.metadata = {'uid': uid };
         }
-    }
-
+    };
 
     TableValidator.prototype.validateConfig = function (config) {
 
