@@ -13,8 +13,10 @@ define([
         var opts = o || {};
         this._$pluginChosen = null;
         this.channels = {};
+        this.cache = opts.cache;
         this.environment = opts.environment;
         this.bridge = new Bridge({
+            cache : this.cache,
             environment : this.environment
         })
     }
