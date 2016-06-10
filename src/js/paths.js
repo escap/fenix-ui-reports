@@ -11,8 +11,6 @@ define(function () {
             "fx-reports/start": "./reports",
             "fx-reports/config": "../../config",
 
-            'q': '{FENIX_CDN}/js/q/1.1.2/q'
-
         },
         shim: {
             'amplify': {
