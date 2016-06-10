@@ -3,9 +3,10 @@ define([
     "underscore",
     "fx-rp-plugins-factory",
     "fx-reports/config/config",
-    "fx-reports/config/config-default",
     "fx-common/bridge",
-    'amplify'], function ($, _, PluginFactory, C, DC, Bridge) {
+    'amplify'
+],
+    function ($, _, PluginFactory, C, Bridge) {
 
     'use strict';
 
@@ -23,13 +24,14 @@ define([
 
     /**
      * pub/sub
-     * @return {Object} filter instance
+     * @return {Object} component instance
      */
-    FenixReports.prototype.on = function (channel, fn) {
+    FenixReports.prototype.on = function (channel, fn, context) {
+        var _context = context || this;
         if (!this.channels[channel]) {
             this.channels[channel] = [];
         }
-        this.channels[channel].push({context: this, callback: fn});
+        this.channels[channel].push({context: _context, callback: fn});
         return this;
     };
 

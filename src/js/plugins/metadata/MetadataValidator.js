@@ -1,10 +1,8 @@
 define(['jquery',
-    'fx-reports/config/md-export/config',
-    'fx-reports/config/md-export/config-default'
-], function ($, C, DC) {
+    'fx-reports/config/md-export/config'
+], function ($, C) {
 
     'use strict';
-
 
     function MetadataValidator() {
 
@@ -42,7 +40,6 @@ define(['jquery',
         };
     }
 
-
     MetadataValidator.prototype.process = function (config) {
 
         /* Extend default configuration. */
@@ -51,7 +48,6 @@ define(['jquery',
         }
         return this.CONFIG;
     };
-
 
     MetadataValidator.prototype.validateConfig = function (config) {
 
@@ -81,6 +77,5 @@ define(['jquery',
         return result;
     };
 
-
     return MetadataValidator;
-})
+});
