@@ -1,0 +1,25 @@
+{
+  "name": "fenix-ui-reports",
+  "version": "2.0.0-beta.0",
+  "description": "FENIX export component",
+  "main": "src/js/reports.js",
+  "directories": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FENIX-Platform/fenix-ui-reports.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/FENIX-Platform/fenix-ui-reports/issues"
+  },
+  "keywords": [
+    "FENIX",
+    "export"
+  ],
+  "author": "Daniele Salvatore <daniele.salvatore@fao.org> (http://fenix.fao.org/)",
+  "license": "GPL-2.0"
+}
