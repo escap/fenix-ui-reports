@@ -1,18 +1,16 @@
 define([
     "jquery",
     "fx-common/bridge",
-    "fx-reports/plugins/metadata",
-    "fx-reports/plugins/table",
-    "fx-reports/plugins/fmd",
+    "fx-reports/validators/metadata",
+    "fx-reports/validators/table",
     "loglevel"
-], function ($, Bridge, Metadata, Table, FMD, log) {
+], function ($, Bridge, Metadata, Table, log) {
 
     'use strict';
 
     var PluginRegistry = {
         'metadata': Metadata,
-        'table': Table,
-        'fmd': FMD
+        'table': Table
     };
 
     function Reports(o) {

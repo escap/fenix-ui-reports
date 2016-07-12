@@ -75,7 +75,7 @@ require([
                     test: projectRoot + submoduleRoot + "test",
 
                     domReady: "{FENIX_CDN}/js/requirejs/plugins/domready/2.0.1/domReady",
-
+                    text: '{FENIX_CDN}/js/requirejs/plugins/text/2.0.12/text',
                     loglevel: '{FENIX_CDN}/js/loglevel/1.4.0/loglevel',
 
                 },

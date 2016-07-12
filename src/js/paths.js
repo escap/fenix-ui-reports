@@ -8,7 +8,8 @@ define(function () {
 
             "fx-reports/start": "./reports",
             "fx-reports/config": "../../config",
-            "fx-reports/plugins": "./plugins",
+            "fx-reports/validators": "./validators",
+            
         },
 
         shim : {}
