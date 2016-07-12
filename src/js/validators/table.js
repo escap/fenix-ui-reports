@@ -41,22 +41,11 @@ define([
     TableValidator.prototype.process = function (config) {
         /* Extend default configuration. */
         if (this.validateConfig(config)) {
-            this._selectKindOfExport(config);
             this.CONFIG = $.extend(true, {}, this.CONFIG, config);
         }
         return this.CONFIG;
     };
 
-    TableValidator.prototype._selectKindOfExport = function (config) {
-
-        if (config.resource.data && Array.isArray(config.resource.data) &&
-            config.resource.metadata.dsd &&
-            config.resource.metadata.dsd.contextSystem &&
-            config.resource.metadata.dsd.contextSystem != "D3P") {
-            var uid = config.resource.metadata.uid;
-            config.resource.metadata = {'uid': uid};
-        }
-    };
 
     TableValidator.prototype.validateConfig = function (config) {
 
