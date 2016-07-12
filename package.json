@@ -20,7 +20,7 @@
     "FENIX",
     "export"
   ],
-  "author": "Daniele Salvatore <daniele.salvatore@fao.org> (http://fenix.fao.org/)",
+  "author": "FENIX team (http://fenix.fao.org/)",
   "license": "GPL-2.0",
   "dependencies": {
     "jquery": "3.1.0"
