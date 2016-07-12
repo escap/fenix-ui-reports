@@ -1,6 +1,6 @@
-define(['jquery',
-    'fx-reports/config/md-export/config'
-], function ($, C) {
+define([
+    'jquery'
+], function ($) {
 
     'use strict';
 
@@ -10,7 +10,7 @@ define(['jquery',
             id_not_specified: "please put an id into resource.metadata.uid",
             plugin_not_exists: "the output plugin does not exists",
             language_not_exists: "language in the config does not exists",
-            configuration_wrong:"please check the configuration"
+            configuration_wrong: "please check the configuration"
         };
 
         this.languagesAdmitted = {
@@ -21,14 +21,12 @@ define(['jquery',
 
         this.CONFIG = {
             "resource": {
-                "metadata": {
-                },
+                "metadata": {},
                 "data": []
             },
             "input": {
                 "plugin": "inputMD",
-                "config": {
-                }
+                "config": {}
             },
             "output": {
                 "plugin": "outputMD",
@@ -43,7 +41,7 @@ define(['jquery',
     MetadataValidator.prototype.process = function (config) {
 
         /* Extend default configuration. */
-        if(this.validateConfig(config)) {
+        if (this.validateConfig(config)) {
             this.CONFIG = $.extend(true, {}, this.CONFIG, config);
         }
         return this.CONFIG;
@@ -55,14 +53,14 @@ define(['jquery',
         // check id of che metadata
         if (typeof config.input !== 'undefined' && config.input !== null
             && config.resource && config.resource.metadata && config.resource.metadata.uid
-            && config.resource.metadata.uid !== null  && config.resource.metadata.uid !== '' ) {
+            && config.resource.metadata.uid !== null && config.resource.metadata.uid !== '') {
             result = true;
             // output configuration
             if (config.hasOwnProperty("output")) {
                 // check the lang
                 if (!config.output.hasOwnProperty("plugin") &&
                     config.output.hasOwnProperty("config") && config.output.config.hasOwnProperty("lang") &&
-                    config.output.config.lang !== null && this.languagesAdmitted[config.output.config.lang]){
+                    config.output.config.lang !== null && this.languagesAdmitted[config.output.config.lang]) {
                     result = true;
                 }
 

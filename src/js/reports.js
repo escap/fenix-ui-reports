@@ -1,24 +1,35 @@
 define([
-    'jquery',
-    "underscore",
-    "fx-rp-plugins-factory",
-    "fx-reports/config/config",
+    "jquery",
     "fx-common/bridge",
-    'amplify'
-],
-    function ($, _, PluginFactory, C, Bridge) {
+    "fx-reports/plugins/metadata",
+    "fx-reports/plugins/table",
+    "fx-reports/plugins/fmd",
+    "loglevel"
+], function ($, Bridge, Metadata, Table, FMD, log) {
 
     'use strict';
 
-    function FenixReports(o) {
+    var PluginRegistry = {
+        'metadata': Metadata,
+        'table': Table,
+        'fmd': FMD
+    };
+
+    function Reports(o) {
+        log.info("FENIX reports");
+        log.info(o);
+
         var opts = o || {};
-        this._$pluginChosen = null;
+
         this.channels = {};
+
         this.cache = opts.cache;
+
         this.environment = opts.environment;
+
         this.bridge = new Bridge({
-            cache : this.cache,
-            environment : this.environment
+            cache: this.cache,
+            environment: this.environment
         })
     }
 
@@ -26,7 +37,7 @@ define([
      * pub/sub
      * @return {Object} component instance
      */
-    FenixReports.prototype.on = function (channel, fn, context) {
+    Reports.prototype.on = function (channel, fn, context) {
         var _context = context || this;
         if (!this.channels[channel]) {
             this.channels[channel] = [];
@@ -35,7 +46,35 @@ define([
         return this;
     };
 
-    FenixReports.prototype._trigger = function (channel) {
+    /**
+     * Export resource
+     * @param obj {Object}
+     * @return {Promise}
+     */
+    Reports.prototype.export = function (obj) {
+        log.info("Export resource");
+        log.info(obj);
+
+        if (PluginRegistry.hasOwnProperty(obj.format)) {
+            log.info("format: " + obj.format);
+            this._$pluginChosen = new PluginRegistry[obj.format];
+        } else {
+            log.error("Invalid format: " + obj.format);
+            throw new Error('please define a valid plugin name');
+        }
+
+        var payload = this._$pluginChosen.process(obj.config);
+
+        this._trigger("export.start", payload);
+
+        return this.bridge.export(payload).then(
+            $.proxy(this._fulfillRequest, this),
+            $.proxy(this._rejectResponse, this));
+    };
+
+    // end of API
+
+    Reports.prototype._trigger = function (channel) {
         if (!this.channels[channel]) {
             return false;
         }
@@ -47,42 +86,23 @@ define([
         return this;
     };
 
-    FenixReports.prototype.init = function (plugin) {
-        if (typeof plugin !== 'undefined' && plugin !== null && plugin !== '') {
-            this._$pluginChosen = PluginFactory(plugin);
-        }
-        else {
-            throw new Error('please define a valid plugin name');
-        }
-    };
+    Reports.prototype._rejectResponse = function (value) {
 
+        this._trigger("export.error");
 
-    FenixReports.prototype.exportData = function (obj) {
+        log.error("Error on resource export");
+        log.error(value);
 
-        amplify.publish('fx.reports.hasSent');
-
-        var payload = this._$pluginChosen.process(obj.config);
-
-        this.bridge.exportResource(payload).then(
-            _.bind(this._fulfillRequest, this),
-                _.bind(this._rejectResponse, this));
-    };
-
-
-    FenixReports.prototype._rejectResponse = function (value) {
-        amplify.publish('fx.reports.hasError');
-
-        this._trigger("error");
-
-        alert("Error occurred during download resource");
+        alert("Error occurred during resource export.");
 
     };
 
-    FenixReports.prototype._fulfillRequest = function (value) {
+    Reports.prototype._fulfillRequest = function (value) {
 
-        amplify.publish('fx.reports.hasCompleted');
+        this._trigger("export.success");
 
-        this._trigger("complete");
+        log.error("Resource export success");
+        log.error(value);
 
         var locUrl = value.url + '?' + value.data.substr(value.data.indexOf('id'));
 
@@ -90,5 +110,5 @@ define([
 
     };
 
-    return FenixReports;
+    return Reports;
 });

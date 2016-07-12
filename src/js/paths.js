@@ -1,25 +1,18 @@
 define(function () {
 
     var config = {
+
         paths: {
-            'jquery': '{FENIX_CDN}/js/jquery/2.1.1/jquery.min',
-            'amplify': '{FENIX_CDN}/js/amplify/1.1.2/amplify.min',
-            "fx-rp-plugins-factory": "./factory/PluginsFactory",
-            "fx-rp-metadata": "./plugins/metadata/MetadataValidator",
-            "fx-rp-table": "./plugins/table/TableValidator",
-            "fx-rp-surveyFMD": "./plugins/fmd/FMDValidator",
+            jquery: '{FENIX_CDN}/js/jquery/2.1.1/jquery.min',
+            loglevel: '{FENIX_CDN}/js/loglevel/1.4.0/loglevel',
+
             "fx-reports/start": "./reports",
             "fx-reports/config": "../../config",
-
+            "fx-reports/plugins": "./plugins",
         },
-        shim: {
-            'amplify': {
-                deps: ['jquery']
-            },
-            'fx-rp-plugins-factory': {
-                deps: ['fx-rp-metadata', 'fx-rp-table', 'fx-rp-surveyFMD']
-            }
-        }
+
+        shim : {}
+
     };
 
     return config;

@@ -1,5 +1,58 @@
+# FENIX Reports
 
-You can use this tool to validate the payload and make an ajax request to the fenix export server side
+```javascript
+var Reports = require('fx-reports/start');
+
+var reports = new Reports({
+        ...
+    });
+```
+
+# Configuration
+<table>
+   <thead>
+      <tr>
+         <th>Parameter</th>
+         <th>Type</th>
+         <th>Default Value</th>
+         <th>Example</th>
+         <th>Description</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td>format</td>
+         <td>string</td>
+         <td> - </td>
+         <td>"table" || "metadata"</td>
+         <td>Export format</td>
+      </tr>
+      <tr>
+         <td>config</td>
+         <td>Object</td>
+         <td>-</td>
+         <td>-</td>
+         <td>Check specific format configuration/td>
+      </tr>
+   </tbody>
+</table>
+
+# API
+
+```javascript
+//This is an example
+reports.on("catalog.show", function () {...});
+```
+
+- `reports.on(event, callback[, context])` : pub/sub 
+- `reports.export( config )` : export resource
+
+# Events
+
+- `export.start` : export start
+- `export.success` : export success
+- `export.error` : export error
+
 
 How to use it
 -----------------------------------
@@ -8,7 +61,7 @@ Steps to use it:
 
  1. Create an instance of FenixExport module
  2. Call the ```init``` method on that instance, specifying the plugin that you want to call (for now, it's possible to call only ```tableExport``` and ```metadataExport``` )
- 3. Call the  ```exportData(*** *payload*, *URL*, *successCallback** , *errorCallback** )``` method passing as parameters (the parameters with * are facultative)
+ 3. Call the  ```export(*** *payload*, *URL*, *successCallback** , *errorCallback** )``` method passing as parameters (the parameters with * are facultative)
 
 ```javascript
 var fenixExport = new FenixExport;
@@ -23,24 +76,17 @@ var payload = {
 var URL = "localhost:8080"		 
 fenixExport.init("metadataExport");
      
-fenixExport.exportData(payload,URL);
+fenixExport.export(payload,URL);
 ```     
 
+## Formats
 
-Init function
------------------------------------
+- `metadata`: export metadata in a PDF file.
+- `table`: export table in  an MS Excel file (.xlsx).
 
-You can pass one of these two parameters:
+## Metadata format configuration
 
- - *metadataExport* , for export metadata in a PDF file.
- - *tableExport*, for export table in  an EXCEL file (.xlsx).
-
-Metadata export
------------------------------------
-
-**Options ( you can mix them )**:
-
- 1. Change payload to set the language: 
+*Set the language:*
 
 ```javascript
 var payload =  {  
@@ -57,7 +103,7 @@ var payload =  {
 };
 ```
 
- 2. Change name of the file:
+*Set file name*
 
 ```javascript
 var payload =  {
@@ -74,11 +120,6 @@ var payload =  {
 };
 ```
 
-Table export
------------------------------------
-TBD
-				 
-				 
-
-
- 
+## Table format configuration
+		 
+		 TODO
