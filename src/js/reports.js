@@ -99,8 +99,8 @@ define([
 
         this._trigger("export.success");
 
-        log.error("Resource export success");
-        log.error(value);
+        log.info("Resource export success");
+        log.info(value);
 
         var locUrl = value.url + '?' + value.data.substr(value.data.indexOf('id'));
 
