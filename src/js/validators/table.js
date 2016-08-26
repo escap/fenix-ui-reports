@@ -4,11 +4,11 @@ define([
 
     'use strict';
 
-    function FMDValidator() {
+    function TableValidator() {
 
         this.errors = {
-            id_not_specified: "please put an id into config.input",
             plugin_not_exists: "the output plugin does not exists",
+            data_or_md_not_exists: "please set metadata and data into configuration specified",
             language_not_exists: "language in the config does not exists",
             configuration_wrong: "please check the configuration"
         };
@@ -18,31 +18,27 @@ define([
             FR: true,
             ES: true
         };
-
         this.CONFIG = {
+
             "resource": {
-                "metadata": {
-                    "dsd": {}
-                },
+                "metadata": {},
                 "data": []
             },
             "input": {
-                "plugin": "inputFMD",
-                "config": {
-                    "uid": ""
-                }
+                "plugin": "inputTable",
+                "config": {}
             },
             "output": {
-                "plugin": "outputFMD",
+                "plugin": "outputTable",
                 "config": {
                     "lang": "EN"
                 }
             }
         };
+
     }
 
-    FMDValidator.prototype.process = function (config) {
-
+    TableValidator.prototype.process = function (config) {
         /* Extend default configuration. */
         if (this.validateConfig(config)) {
             this.CONFIG = $.extend(true, {}, this.CONFIG, config);
@@ -50,9 +46,23 @@ define([
         return this.CONFIG;
     };
 
-    FMDValidator.prototype.validateConfig = function (config) {
-        return true; // TODO
+
+    TableValidator.prototype.validateConfig = function (config) {
+
+        var result = false;
+        // check data and metadata
+        if (typeof config.input !== 'undefined' && config.input != null
+            && config.resource && config.resource.metadata && config.resource.metadata.uid
+            && config.resource.metadata.uid !== null && config.resource.metadata.uid !== '') {
+            result = true;
+
+
+        } else {
+            throw this.errors.data_or_md_not_exists;
+        }
+
+        return result;
     };
 
-    return FMDValidator;
+    return TableValidator;
 });

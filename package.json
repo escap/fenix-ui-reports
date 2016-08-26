@@ -1,6 +1,6 @@
 {
   "name": "fenix-ui-reports",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0",
   "description": "FENIX export component",
   "main": "src/js/reports.js",
   "directories": {
@@ -20,6 +20,9 @@
     "FENIX",
     "export"
   ],
-  "author": "Daniele Salvatore <daniele.salvatore@fao.org> (http://fenix.fao.org/)",
-  "license": "GPL-2.0"
+  "author": "FENIX team (http://fenix.fao.org/)",
+  "license": "GPL-2.0",
+  "dependencies": {
+    "jquery": "3.1.0"
+  }
 }

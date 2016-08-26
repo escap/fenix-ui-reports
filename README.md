@@ -41,7 +41,7 @@ var reports = new Reports({
 
 ```javascript
 //This is an example
-reports.on("catalog.show", function () {...});
+reports.on("export.success", function () {...});
 ```
 
 - `reports.on(event, callback[, context])` : pub/sub 
