@@ -1,11 +1,8 @@
-if (typeof define !== 'function') {
-    var define = require('amdefine')(module);
-}
 define([
     "jquery",
-    "fx-common/bridge",
-    "fx-reports/validators/metadata",
-    "fx-reports/validators/table",
+    "fenix-ui-bridge",
+    "./validators/metadata",
+    "./validators/table",
     "loglevel"
 ], function ($, Bridge, Metadata, Table, log) {
 

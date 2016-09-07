@@ -1,13 +1,9 @@
-if (typeof define !== 'function') {
-    var define = require('amdefine')(module);
-}
-
 define([
     'loglevel',
     'jquery',
     'underscore',
-    'fx-reports/start',
-    'text!test/json/uneca_population.json'
+    '../../../src/js/index',
+    '../json/uneca_population.json'
 ], function (log, $, _, Reports, Model) {
 
     'use strict';
@@ -15,15 +11,18 @@ define([
     var instances = [],
         lang = "EN",
         cache = false,
-        model = JSON.parse(Model),
+        model = Model,
         uid = "UNECA_Health",
         template = "fao",
         environment = "production"; //"develop" || "production",
 
-    function Test() {
+    function Dev() {
+        console.clear();
+        log.setLevel('trace')
+        this.start();
     }
 
-    Test.prototype.start = function () {
+    Dev.prototype.start = function () {
 
         log.trace("Test started");
 
@@ -31,7 +30,7 @@ define([
 
     };
 
-    Test.prototype._render = function () {
+    Dev.prototype._render = function () {
 
         var self = this;
 
@@ -52,7 +51,7 @@ define([
 
     };
 
-    Test.prototype._export = function (format) {
+    Dev.prototype._export = function (format) {
 
         this.report = this._createInstance({
             environment: environment,
@@ -120,7 +119,7 @@ define([
         }
     };
 
-    Test.prototype._createInstance = function (params) {
+    Dev.prototype._createInstance = function (params) {
 
         var instance = new Reports(params);
 
@@ -129,6 +128,6 @@ define([
         return instance;
     };
 
-    return new Test();
+    return new Dev();
 
 });
