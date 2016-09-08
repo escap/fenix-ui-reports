@@ -1,8 +1,8 @@
 {
   "name": "fenix-ui-reports",
-  "version": "2.0.0",
+  "version": "2.0.0-beta.0",
   "description": "FENIX export component",
-  "main": "src/js/reports.js",
+  "main": "dist/fenix-ui-reports.min.js",
   "directories": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
